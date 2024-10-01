@@ -96,6 +96,8 @@ esp_err_t arduino_usb_event_handler_register_with(esp_event_base_t event_base, i
 static bool tinyusb_device_mounted = false;
 static bool tinyusb_device_suspended = false;
 
+extern "C" {
+
 // Invoked when device is mounted (configured)
 void tud_mount_cb(void) {
   tinyusb_device_mounted = true;
@@ -124,6 +126,8 @@ void tud_resume_cb(void) {
   tinyusb_device_suspended = false;
   arduino_usb_event_data_t p;
   arduino_usb_event_post(ARDUINO_USB_EVENTS, ARDUINO_USB_RESUME_EVENT, &p, sizeof(arduino_usb_event_data_t), portMAX_DELAY);
+}
+
 }
 
 ESPUSB::ESPUSB(size_t task_stack_size, uint8_t event_task_priority)
